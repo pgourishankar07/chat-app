@@ -18,7 +18,7 @@ export function ProfileContextProvider({ children }) {
           const data = {
             name,
             createdAt,
-            userId: authObj.uid,
+            uid: authObj.uid,
             email: authObj.email,
           };
           setProfile(data);
