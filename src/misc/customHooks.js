@@ -22,5 +22,6 @@ export function useMediaQuery(query) {
 
     return () => queryList.removeListener(listener);
   }, [query]);
+
   return matches;
 }
