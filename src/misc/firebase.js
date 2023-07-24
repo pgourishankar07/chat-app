@@ -10,6 +10,7 @@ import 'firebase/database';
 const firebaseConfig = {
   apiKey: 'AIzaSyCyegoV96qSZBlEav2-rW52V9UQ4qY-Ah4',
   authDomain: 'chathub-aff58.firebaseapp.com',
+  databaseURL: 'https://chathub-aff58-default-rtdb.firebaseio.com',
   projectId: 'chathub-aff58',
   storageBucket: 'chathub-aff58.appspot.com',
   messagingSenderId: '945753486081',

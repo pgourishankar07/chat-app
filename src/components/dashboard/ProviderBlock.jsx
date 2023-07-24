@@ -7,6 +7,9 @@ export default function ProviderBlock() {
     'google.com': auth.currentUser.providerData.some(
       data => data.providerId === 'google.com'
     ),
+    'facebook.com': auth.currentUser.providerData.some(
+      data => data.providerId === 'facebook.com'
+    ),
   });
 
   const updateIsConnected = (providerId, value) => {
@@ -34,6 +37,9 @@ export default function ProviderBlock() {
   const unlinkGoogle = () => {
     unlink('google.com');
   };
+  const unlinkFacebook = () => {
+    unlink('facebook.com');
+  };
 
   const link = async provider => {
     try {
@@ -48,6 +54,9 @@ export default function ProviderBlock() {
   const linkGoogle = () => {
     link(new firebase.auth.GoogleAuthProvider());
   };
+  const linkFacebook = () => {
+    link(new firebase.auth.FacebookAuthProvider());
+  };
 
   return (
     <div>
@@ -57,11 +66,26 @@ export default function ProviderBlock() {
           Connected
         </Tag>
       )}
+      {isConnected['facebook.com'] && (
+        <Tag color="blue" closable onClose={unlinkFacebook}>
+          <Icon icon="facebook" />
+          Connected
+        </Tag>
+      )}
+
       {!isConnected && (
         <div className="mt-2">
           <Button block color="green" onClick={linkGoogle}>
             <Icon icon="google" />
             Link to Google
+          </Button>
+        </div>
+      )}
+      {!isConnected && (
+        <div className="mt-2">
+          <Button block color="blue" onClick={linkFacebook}>
+            <Icon icon="facebook" />
+            Link to facebook
           </Button>
         </div>
       )}

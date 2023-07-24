@@ -15,11 +15,16 @@ export default function SignIn() {
       Alert.success('Signed In Successfully', 4000);
     } catch (error) {
       Alert.error(error.message, 4000);
+      console.log(error.message);
     }
   }
 
   function onGoogleSignIn() {
     SignInWithProvider(new firebase.auth.GoogleAuthProvider());
+  }
+
+  function onFacebookSignIn() {
+    SignInWithProvider(new firebase.auth.FacebookAuthProvider());
   }
 
   return (
@@ -35,6 +40,11 @@ export default function SignIn() {
               <div className="mt-3">
                 <Button block color="red" onClick={onGoogleSignIn}>
                   <Icon icon="google"> Continue with Google</Icon>
+                </Button>
+              </div>
+              <div className="mt-3">
+                <Button block color="blue" onClick={onFacebookSignIn}>
+                  <Icon icon="facebook"> Continue with facebook</Icon>
                 </Button>
               </div>
             </Panel>
