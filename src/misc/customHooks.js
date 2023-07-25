@@ -1,6 +1,6 @@
 import { useState, useCallback, useEffect } from 'react';
 
-export function useModelState(defaultVal = false) {
+export function useModalState(defaultVal = false) {
   const [isOpen, setIsopen] = useState(defaultVal);
 
   const open = useCallback(() => setIsopen(true), []);
