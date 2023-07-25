@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { auth } from '../../misc/firebase';
 import firebase from 'firebase/app';
 import { Tag, Icon, Button, Alert } from 'rsuite';
+
 export default function ProviderBlock() {
   const [isConnected, setIsconnected] = useState({
     'google.com': auth.currentUser.providerData.some(
@@ -73,7 +74,7 @@ export default function ProviderBlock() {
         </Tag>
       )}
 
-      {!isConnected && (
+      {!isConnected['google.com'] && (
         <div className="mt-2">
           <Button block color="green" onClick={linkGoogle}>
             <Icon icon="google" />
@@ -81,7 +82,7 @@ export default function ProviderBlock() {
           </Button>
         </div>
       )}
-      {!isConnected && (
+      {!isConnected['facebook.com'] && (
         <div className="mt-2">
           <Button block color="blue" onClick={linkFacebook}>
             <Icon icon="facebook" />
