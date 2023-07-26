@@ -1,4 +1,4 @@
-import { createContext, useEffect, useState } from 'react';
+import { createContext, useContext, useEffect, useState } from 'react';
 import { database } from '../misc/firebase';
 import { convertToArr } from '../misc/helper';
 
@@ -20,3 +20,5 @@ export function RoomProvider({ children }) {
 
   return <RoomContext.Provider value={rooms}>{children}</RoomContext.Provider>;
 }
+
+export const useRooms = () => useContext(RoomContext);
