@@ -1,9 +1,10 @@
 import { useParams } from 'react-router-dom/cjs/react-router-dom.min';
 import Bottom from '../../components/chat-window/bottom';
 import Messages from '../../components/chat-window/messages';
-import Top from '../../components/chat-window/top';
+import { Top } from '../../components/chat-window/top';
 import { useRooms } from '../../context/room.context';
 import { Loader } from 'rsuite';
+import { CurrRoomProvider } from '../../context/current-room.context';
 
 export default function Chat() {
   const { chatId } = useParams();
@@ -18,9 +19,14 @@ export default function Chat() {
   if (!currRoom) {
     return <h6 className="text-center mt-page">Chat {chatId} not found</h6>;
   }
+  const { name, description } = currRoom;
+  const currRoomData = {
+    name,
+    description,
+  };
 
   return (
-    <>
+    <CurrRoomProvider data={currRoomData}>
       <div className="chat-top">
         <Top />
       </div>
@@ -30,6 +36,6 @@ export default function Chat() {
       <div className="chat-bottom">
         <Bottom />
       </div>
-    </>
+    </CurrRoomProvider>
   );
 }
