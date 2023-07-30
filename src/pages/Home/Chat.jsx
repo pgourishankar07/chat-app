@@ -5,6 +5,8 @@ import { Top } from '../../components/chat-window/top';
 import { useRooms } from '../../context/room.context';
 import { Loader } from 'rsuite';
 import { CurrRoomProvider } from '../../context/current-room.context';
+import { convertArr } from '../../misc/helper';
+import { auth } from '../../misc/firebase';
 
 export default function Chat() {
   const { chatId } = useParams();
@@ -20,9 +22,15 @@ export default function Chat() {
     return <h6 className="text-center mt-page">Chat {chatId} not found</h6>;
   }
   const { name, description } = currRoom;
+
+  const admins = convertArr(currRoom.admins);
+
+  const isAdmin = admins.includes(auth.currentUser.uid);
   const currRoomData = {
     name,
     description,
+    admins,
+    isAdmin,
   };
 
   return (

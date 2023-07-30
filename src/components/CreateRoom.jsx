@@ -13,6 +13,7 @@ import { useModalState } from '../misc/customHooks';
 import { useCallback, useRef, useState } from 'react';
 import firebase from 'firebase/app';
 import { database } from '../misc/firebase';
+import { auth } from '../misc/firebase';
 
 const { StringType } = Schema.Types;
 const model = Schema.Model({
@@ -39,9 +40,13 @@ export default function CreateRoom() {
       return;
     }
     setIsLoading(true);
+
     const newRoomData = {
       ...formVal,
       createdAt: firebase.database.ServerValue.TIMESTAMP,
+      admins: {
+        [auth.currentUser.uid]: true,
+      },
     };
 
     try {

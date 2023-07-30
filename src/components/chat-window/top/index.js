@@ -9,6 +9,7 @@ import EditRoom from './EditRoom';
 export function Top() {
   const name = useCurrRoom(v => v.name);
   const isMobile = useMediaQuery('(max-width:992px)');
+  const isAdmin = useCurrRoom(v => v.isAdmin);
 
   return (
     <div>
@@ -28,7 +29,7 @@ export function Top() {
           <span className="text-disappear">{name}</span>
         </h4>
         <ButtonToolbar className="ws-nowrap">
-          <EditRoom />
+          {isAdmin && <EditRoom />}
         </ButtonToolbar>
       </div>
       <div className="d-flex justify-content-between align-items-center">

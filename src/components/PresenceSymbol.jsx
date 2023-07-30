@@ -1,13 +1,19 @@
 import { Badge, Tooltip, Whisper } from 'rsuite';
 import { usePresence } from '../misc/customHooks';
+import TimeAgo from 'timeago-react';
 
 function getText(presence) {
   if (!presence) {
     return 'Unknown state';
   }
-  return presence.state === 'online'
-    ? 'Online'
-    : `Last online ${new Date(presence.last_changed).toLocaleDateString} ago`;
+  return presence.state === 'online' ? (
+    'Online'
+  ) : (
+    <TimeAgo
+      datetime={new Date(presence.last_changed)}
+      className="font-normal  ml-2"
+    />
+  );
 }
 function getColor(presence) {
   if (!presence) {
