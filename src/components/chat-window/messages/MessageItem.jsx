@@ -1,12 +1,14 @@
 import TimeAgo from 'timeago-react';
 import ProfileAvatar from '../../ProfileAvatar';
 import ProfileInfoBtn from './ProfileInfoBtn';
+import PresenceSymbol from '../../PresenceSymbol';
 
 export default function MessageItem({ message }) {
   const { author, createdAt, text } = message;
   return (
     <li className="padded mb-1">
       <div className="d-flex align-items-center font-bolder mb-1">
+        <PresenceSymbol uid={author.uid} />
         <ProfileAvatar
           src={author.avatar}
           name={author.name}
