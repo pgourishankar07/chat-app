@@ -4,6 +4,7 @@ import { ButtonToolbar, Icon } from 'rsuite';
 import { Link } from 'react-router-dom/cjs/react-router-dom.min';
 import { useMediaQuery } from '../../../misc/customHooks';
 import RoomInfoBtn from './RoomInfoBtn';
+import EditRoom from './EditRoom';
 
 export function Top() {
   const name = useCurrRoom(v => v.name);
@@ -26,7 +27,9 @@ export function Top() {
           />
           <span className="text-disappear">{name}</span>
         </h4>
-        <ButtonToolbar className="ws-nowrap">todo</ButtonToolbar>
+        <ButtonToolbar className="ws-nowrap">
+          <EditRoom />
+        </ButtonToolbar>
       </div>
       <div className="d-flex justify-content-between align-items-center">
         <span>todo</span>

@@ -7,6 +7,7 @@ export default function EditInput({
   label = null,
   placeholder = 'Write your Value',
   emptyMsg = 'Input is Empty',
+  wrapperClassName = '',
   ...inputProps
 }) {
   const [input, setInput] = useState(initialVal);
@@ -34,7 +35,7 @@ export default function EditInput({
   };
 
   return (
-    <div>
+    <div className={wrapperClassName}>
       {label}
       <InputGroup>
         <Input
