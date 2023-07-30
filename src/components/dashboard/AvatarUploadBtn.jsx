@@ -66,6 +66,7 @@ export default function AvatarUploadBtn() {
       await database.ref().update(updates);
       Alert.info('Avatar has been uploaded', 4000);
       setIsloading(false);
+      close();
     } catch (err) {
       setIsloading(false);
       Alert.error(err.message, 4000);

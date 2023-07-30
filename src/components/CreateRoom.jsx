@@ -70,7 +70,7 @@ export default function CreateRoom() {
           <Form
             fluid
             onChange={onFormChange}
-            formVal={formVal}
+            formval={formVal}
             model={model}
             ref={formRef}
           >
