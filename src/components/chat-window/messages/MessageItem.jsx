@@ -8,9 +8,21 @@ import { memo } from 'react';
 import { auth } from '../../../misc/firebase';
 import { useHover } from '../../../misc/customHooks';
 import IconBtn from './IconBtn';
+import ImageBtnModal from './ImageBtnModal';
+
+const renderFiles = file => {
+  if (file.contentType.includes('image')) {
+    return (
+      <div className="height-220">
+        <ImageBtnModal src={file.url} fileName={file.name} />
+      </div>
+    );
+  }
+  return <a href={file.url}>Download {file.name}</a>;
+};
 
 function MessageItem({ message, handleAdmin, handleLike, handleDel }) {
-  const { author, createdAt, text, likes, likeCount } = message;
+  const { author, createdAt, text, file, likes, likeCount } = message;
 
   const [isHover, selfRef] = useHover();
 
@@ -72,7 +84,8 @@ function MessageItem({ message, handleAdmin, handleLike, handleDel }) {
         )}
       </div>
       <div>
-        <span className="word-breal-all">{text}</span>
+        {text && <span className="word-breal-all">{text}</span>}
+        {file && renderFiles(file)}
       </div>
     </li>
   );

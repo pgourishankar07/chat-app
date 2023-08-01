@@ -29,7 +29,9 @@ export default function Roomitem({ room }) {
               <div style={{ fontWeight: 'bold' }}>
                 {lastMessage.author.name}
               </div>
-              <span className="italic">{lastMessage.text}</span>
+              <span className="italic">
+                {lastMessage.text || lastMessage.file.name}
+              </span>
             </div>
           </>
         ) : (

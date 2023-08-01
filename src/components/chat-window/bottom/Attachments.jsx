@@ -72,7 +72,7 @@ export default function Attachments({ afterUpload }) {
           />
         </ModalBody>
         <ModalFooter>
-          <Button block disabled={isLoad} onClick={onUpload}>
+          <Button block color="blue" disabled={isLoad} onClick={onUpload}>
             Send to chat
           </Button>
           <div className="text-right mt-2">
