@@ -7,6 +7,7 @@ import { useCurrRoom } from '../../../context/current-room.context';
 import { memo } from 'react';
 import { auth } from '../../../misc/firebase';
 import { useHover } from '../../../misc/customHooks';
+import IconBtn from './IconBtn';
 
 function MessageItem({ message, handleAdmin }) {
   const { author, createdAt, text } = message;
@@ -19,6 +20,8 @@ function MessageItem({ message, handleAdmin }) {
   const isMsgAuthAdmin = admins.includes(author.uid);
   const isAuth = auth.currentUser.uid === author.uid;
   const canGrantAdmin = isAdmin && !isAuth;
+
+  const t = true;
 
   return (
     <li
@@ -45,6 +48,15 @@ function MessageItem({ message, handleAdmin }) {
         <TimeAgo
           datetime={createdAt}
           className="font-normal text-black-45 ml-2"
+        />
+
+        <IconBtn
+          isVisible
+          iconName="heart"
+          tooltip="Like"
+          onClick={() => {}}
+          badgeContent={5}
+          {...(t ? { color: 'red' } : {})}
         />
       </div>
       <div>
