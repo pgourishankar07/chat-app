@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom/cjs/react-router-dom.min';
-import { database } from '../../../misc/firebase';
+import { auth, database } from '../../../misc/firebase';
 import { convertToArr } from '../../../misc/helper';
 import MessageItem from './MessageItem';
 import { Alert } from 'rsuite';
@@ -46,12 +46,69 @@ export default function Messages() {
     [chatId]
   );
 
+  const handleLike = useCallback(async msgId => {
+    const { uid } = auth.currentUser;
+    const msgRef = database.ref(`/messages/${msgId}`);
+    await msgRef.transaction(msg => {
+      if (msg) {
+        if (msg.likes && msg.likes[uid]) {
+          msg.likeCount -= 1;
+          msg.likes[uid] = null;
+        } else {
+          msg.likeCount += 1;
+          if (!msg.likes) {
+            msg.likes = {};
+          }
+          msg.likes[uid] = true;
+        }
+      }
+      return msg;
+    });
+  }, []);
+
+  const handleDel = useCallback(
+    async msgId => {
+      if (!window.confirm('Do you want to Delete this message ?')) {
+        return;
+      }
+      const isLastMsg = msg[msg.length - 1].id == msgId;
+      const updates = {};
+
+      updates[`/messages/${msgId}`] = null;
+
+      if (isLastMsg && msg.length > 1) {
+        updates[`/rooms/${chatId}/lastMessage`] = {
+          ...msg[msg.length - 2],
+          msgId: msg[msg.length - 2].id,
+        };
+      }
+
+      if (isLastMsg && msg.length == 1) {
+        updates[`/rooms/${chatId}/lastMessage`] = null;
+      }
+
+      try {
+        await database.ref().update(updates);
+        Alert.info('Message has been deleted', 2000);
+      } catch (error) {
+        Alert.error(error.message, 2000);
+      }
+    },
+    [chatId, msg]
+  );
+
   return (
     <ul className="msg-list custom-scroll">
       {isChatEmpty && <li>No Messages yet</li>}
       {canShowMsg &&
         msg.map(m => (
-          <MessageItem key={m.id} message={m} handleAdmin={handleAdmin} />
+          <MessageItem
+            key={m.id}
+            message={m}
+            handleAdmin={handleAdmin}
+            handleLike={handleLike}
+            handleDel={handleDel}
+          />
         ))}
     </ul>
   );

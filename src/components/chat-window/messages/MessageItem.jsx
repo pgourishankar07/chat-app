@@ -9,8 +9,8 @@ import { auth } from '../../../misc/firebase';
 import { useHover } from '../../../misc/customHooks';
 import IconBtn from './IconBtn';
 
-function MessageItem({ message, handleAdmin }) {
-  const { author, createdAt, text } = message;
+function MessageItem({ message, handleAdmin, handleLike, handleDel }) {
+  const { author, createdAt, text, likes, likeCount } = message;
 
   const [isHover, selfRef] = useHover();
 
@@ -21,7 +21,8 @@ function MessageItem({ message, handleAdmin }) {
   const isAuth = auth.currentUser.uid === author.uid;
   const canGrantAdmin = isAdmin && !isAuth;
 
-  const t = true;
+  const isLikedByUser =
+    likes && Object.keys(likes).includes(auth.currentUser.uid);
 
   return (
     <li
@@ -49,15 +50,26 @@ function MessageItem({ message, handleAdmin }) {
           datetime={createdAt}
           className="font-normal text-black-45 ml-2"
         />
-
         <IconBtn
-          isVisible
+          isVisible={isHover}
           iconName="heart"
           tooltip="Like"
-          onClick={() => {}}
-          badgeContent={5}
-          {...(t ? { color: 'red' } : {})}
+          onClick={() => {
+            handleLike(message.id);
+          }}
+          badgeContent={likeCount}
+          {...(isLikedByUser ? { color: 'red' } : {})}
         />
+        {isAuth && (
+          <IconBtn
+            isVisible={isHover}
+            iconName="trash"
+            tooltip="Delete"
+            onClick={() => {
+              handleDel(message.id);
+            }}
+          />
+        )}
       </div>
       <div>
         <span className="word-breal-all">{text}</span>
