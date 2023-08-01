@@ -6,9 +6,12 @@ import { Button } from 'rsuite';
 import { useCurrRoom } from '../../../context/current-room.context';
 import { memo } from 'react';
 import { auth } from '../../../misc/firebase';
+import { useHover } from '../../../misc/customHooks';
 
 function MessageItem({ message, handleAdmin }) {
   const { author, createdAt, text } = message;
+
+  const [isHover, selfRef] = useHover();
 
   const isAdmin = useCurrRoom(v => v.isAdmin);
   const admins = useCurrRoom(v => v.admins);
@@ -18,7 +21,10 @@ function MessageItem({ message, handleAdmin }) {
   const canGrantAdmin = isAdmin && !isAuth;
 
   return (
-    <li className="padded mb-1">
+    <li
+      className={`padded mb-1 cursor-pointer ${isHover ? 'bg-black-02' : ''}`}
+      ref={selfRef}
+    >
       <div className="d-flex align-items-center font-bolder mb-1">
         <PresenceSymbol uid={author.uid} />
         <ProfileAvatar
@@ -31,8 +37,8 @@ function MessageItem({ message, handleAdmin }) {
           {canGrantAdmin && (
             <Button block onClick={() => handleAdmin(author.uid)} color="blue">
               {isMsgAuthAdmin
-                ? 'Remove admin permission'
-                : 'Give admin permission in this room'}
+                ? 'Remove Admin permission'
+                : 'Give Admin permission in this room'}
             </Button>
           )}
         </ProfileInfoBtn>
