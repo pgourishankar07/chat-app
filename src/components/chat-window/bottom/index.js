@@ -5,6 +5,7 @@ import { useParams } from 'react-router-dom/cjs/react-router-dom.min';
 import { useProfile } from '../../../context/profile.context';
 import { database } from '../../../misc/firebase';
 import Attachments from './Attachments';
+import Audio from './Audio';
 
 function assembleMessage(profile, chatId) {
   return {
@@ -96,6 +97,7 @@ export default function Bottom() {
     <div>
       <InputGroup>
         <Attachments afterUpload={afterUpload} />
+        <Audio afterUpload={afterUpload} />
         <Input
           placeholder="Write a new message here..."
           value={input}
