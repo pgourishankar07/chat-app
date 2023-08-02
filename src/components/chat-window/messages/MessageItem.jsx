@@ -18,6 +18,13 @@ const renderFiles = file => {
       </div>
     );
   }
+  if (file.contentType.includes('audio')) {
+    return (
+      <audio controls>
+        <source src={file.url} type="audio/mp3" />
+      </audio>
+    );
+  }
   return <a href={file.url}>Download {file.name}</a>;
 };
 
@@ -78,7 +85,7 @@ function MessageItem({ message, handleAdmin, handleLike, handleDel }) {
             iconName="trash"
             tooltip="Delete"
             onClick={() => {
-              handleDel(message.id);
+              handleDel(message.id, file);
             }}
           />
         )}

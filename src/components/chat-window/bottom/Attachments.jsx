@@ -1,9 +1,6 @@
 import { Alert, Button, Icon, Modal, Uploader } from 'rsuite';
 import InputGroupButton from 'rsuite/lib/InputGroup/InputGroupButton';
 import { useModalState } from '../../../misc/customHooks';
-import ModalHeader from 'rsuite/lib/Modal/ModalHeader';
-import ModalBody from 'rsuite/lib/Modal/ModalBody';
-import ModalFooter from 'rsuite/lib/Modal/ModalFooter';
 import ModalTitle from 'rsuite/lib/Modal/ModalTitle';
 import { useState } from 'react';
 import { storage } from '../../../misc/firebase';
@@ -56,10 +53,10 @@ export default function Attachments({ afterUpload }) {
         <Icon icon="attachment" />
       </InputGroupButton>
       <Modal show={isOpen} onHide={close}>
-        <ModalHeader>
+        <Modal.Header>
           <ModalTitle>Upload Files</ModalTitle>
-        </ModalHeader>
-        <ModalBody>
+        </Modal.Header>
+        <Modal.Body>
           <Uploader
             autoUpload={false}
             action=""
@@ -70,15 +67,15 @@ export default function Attachments({ afterUpload }) {
             className="w-100"
             disabled={isLoad}
           />
-        </ModalBody>
-        <ModalFooter>
+        </Modal.Body>
+        <Modal.Footer>
           <Button block color="blue" disabled={isLoad} onClick={onUpload}>
             Send to chat
           </Button>
           <div className="text-right mt-2">
             <small>* only files less than 5MB are allowed</small>
           </div>
-        </ModalFooter>
+        </Modal.Footer>
       </Modal>
     </>
   );
