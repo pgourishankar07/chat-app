@@ -1,4 +1,4 @@
-import TimeAgo from 'timeago-react';
+// import TimeAgo from 'timeago-react';
 import ProfileAvatar from '../../ProfileAvatar';
 import ProfileInfoBtn from './ProfileInfoBtn';
 import PresenceSymbol from '../../PresenceSymbol';
@@ -43,6 +43,9 @@ function MessageItem({ message, handleAdmin, handleLike, handleDel }) {
   const isLikedByUser =
     likes && Object.keys(likes).includes(auth.currentUser.uid);
 
+  const now =
+    new Date(createdAt).getHours() + ':' + new Date(createdAt).getMinutes();
+
   return (
     <li
       className={`padded mb-1 cursor-pointer ${isHover ? 'bg-black-02' : ''}`}
@@ -65,10 +68,11 @@ function MessageItem({ message, handleAdmin, handleLike, handleDel }) {
             </Button>
           )}
         </ProfileInfoBtn>
-        <TimeAgo
+        {/* <TimeAgo
           datetime={createdAt}
           className="font-normal text-black-45 ml-2"
-        />
+        /> */}
+        <div className="ml-3 ">{now}</div>
         <IconBtn
           isVisible={isHover}
           iconName="heart"

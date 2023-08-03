@@ -46,3 +46,16 @@ export async function getUserUpdates(userId, keyToUpdate, value, db) {
 
   return updates;
 }
+
+export function groupDate(array, groupKeyFn) {
+  return array.reduce((result, item) => {
+    const groupKey = groupKeyFn(item);
+
+    if (!result[groupKey]) {
+      result[groupKey] = [];
+    }
+
+    result[groupKey].push(item);
+    return result;
+  }, {});
+}
