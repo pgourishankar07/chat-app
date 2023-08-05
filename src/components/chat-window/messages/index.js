@@ -1,29 +1,61 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom/cjs/react-router-dom.min';
 import { auth, database, storage } from '../../../misc/firebase';
 import { convertToArr, groupDate } from '../../../misc/helper';
 import MessageItem from './MessageItem';
 import { Alert } from 'rsuite';
 
+const msgRef = database.ref('/messages');
+
+function shouldScrollToBottom(node, threshold = 30) {
+  const percentage =
+    (100 * node.scrollTop) / (node.scrollHeight - node.clientHeight) || 0;
+
+  return percentage > threshold;
+}
+
 export default function Messages() {
   const [msg, setMsg] = useState(null);
   const { chatId } = useParams();
+  const selfRef = useRef();
+  const [renderTime, setRenderTime] = useState(0);
+
   const isChatEmpty = msg && msg.length === 0;
   const canShowMsg = msg && msg.length > 0;
 
-  useEffect(() => {
-    const msgRef = database.ref('/messages');
+  const loadMessages = useCallback(() => {
+    const node = selfRef.current;
     msgRef
       .orderByChild('roomId')
       .equalTo(chatId)
       .on('value', snap => {
         const data = convertToArr(snap.val());
         setMsg(data);
+
+        if (shouldScrollToBottom(node)) {
+          node.scrollTop = node.scrollHeight;
+        }
       });
+  }, [chatId]);
+
+  useEffect(() => {
+    const node = selfRef.current;
+    const startTime = performance.now();
+
+    loadMessages();
+
+    setTimeout(() => {
+      node.scrollTop = node.scrollHeight;
+      const endTime = performance.now();
+      const timeTaken = endTime - startTime;
+      setRenderTime(timeTaken);
+    }, renderTime + 500);
+
     return () => {
       msgRef.off('value');
     };
-  }, [chatId]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [loadMessages]);
 
   const handleAdmin = useCallback(
     async uid => {
@@ -135,7 +167,7 @@ export default function Messages() {
   };
 
   return (
-    <ul className="msg-list custom-scroll">
+    <ul ref={selfRef} className="msg-list custom-scroll">
       {isChatEmpty && <li>No Messages yet</li>}
       {canShowMsg && renderMsg()}
     </ul>
