@@ -7,21 +7,24 @@ import Home from './pages/Home';
 import PrivateRoute from './components/PrivateRoute';
 import PublicRoute from './components/PublicRoute';
 import { ProfileContextProvider } from './context/profile.context';
+import { ErrorBoundary } from './components/ErrorBoundary';
 
 function App() {
   return (
-    <ProfileContextProvider>
-      <BrowserRouter>
-        <Switch>
-          <PublicRoute path="/signin">
-            <SignIn />
-          </PublicRoute>
-          <PrivateRoute path="/">
-            <Home />
-          </PrivateRoute>
-        </Switch>
-      </BrowserRouter>
-    </ProfileContextProvider>
+    <ErrorBoundary>
+      <ProfileContextProvider>
+        <BrowserRouter>
+          <Switch>
+            <PublicRoute path="/signin">
+              <SignIn />
+            </PublicRoute>
+            <PrivateRoute path="/">
+              <Home />
+            </PrivateRoute>
+          </Switch>
+        </BrowserRouter>
+      </ProfileContextProvider>
+    </ErrorBoundary>
   );
 }
 
